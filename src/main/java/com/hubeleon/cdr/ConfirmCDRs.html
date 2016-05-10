@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <link href="http://hubeleon.appspot.com/css/stylesheets.css" rel="stylesheet" type="text/css"/> 
+        <link href="http://hubeleon.appspot.com/css/hubeleon.css" rel="stylesheet" type="text/css"/> 
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <wicket:head>
+        
+    </wicket:head>
+    </head>
+    <body>
+    <wicket:extend>
+        
+        <div class="block block-drop-shadow" wicket:id="ochConfirmCDRsTable">
+                    <div class="head bg-default bg-light-rtl">
+                        <h2>Clearing House Charge Records</h2>
+                        <div class="head-panel nm">
+                            <a href="#" class="hp-info pull-left">
+                                <div class="hp-icon">
+                                    <span class="icon-random"></span>
+                                </div>
+                                <span class="hp-main" id="totalNew">2</span>
+                                <span class="hp-sm">New</span>
+                            </a>
+                            <a href="#" class="hp-info pull-left">
+                                <div class="hp-icon">
+                                    <span class="icon-thumbs-up"></span>
+                                </div>                                
+                                <span class="hp-main" id="totalAccepted">0</span>
+                                <span class="hp-sm">Accepted</span>
+                            </a>                            
+                            <a href="#" class="hp-info pull-left">
+                                <div class="hp-icon">
+                                    <span class="icon-thumbs-down"></span>
+                                </div>                                
+                                <span class="hp-main" id="totalRejected">0</span>
+                                <span class="hp-sm">Rejected</span>
+                            </a>                            
+                            <!--
+                            <a href="#" class="hp-info hp-one pull-right tip" title="" data-original-title="Refresh">
+                                <div class="hp-icon">
+                                    <span class="icon-refresh"></span>
+                                </div>                                                 
+                                <span class="hp-main">9:24 am</span>                                
+                            </a>
+                            -->
+                        </div>
+                    </div>
+                    <div class="content list" wicket:id="listview">
+                        <div class="list-item">
+                            <div class="list-datetime">
+                                <div class="time">
+                                    <span wicket:id="cdrId"></span>                                    
+                                </div>
+                            </div>
+                            <div class="list-info">
+                                <span class="icon-random"></span>                                
+                            </div>
+                            <div class="list-info" data-toggle="buttons">
+                                <input type="hidden" id="currentState" value="new">
+                                <label class="btn btn-default btn-success active">
+                                    <input type="radio" name="status" id="status" value="new">new
+                                </label>
+                                <label class="btn btn-default btn-primary btn-success">
+                                    <input type="radio" name="status" id="status" value="accept">accept
+                                </label>
+                                <label class="btn btn-default btn-primary btn-success">
+                                    <input type="radio" name="status" id="status" value="reject">reject
+                                </label>                                
+                            </div>
+                                                        <!-- <span class="icon-random"></span> -->
+
+                            <div class="list-text">
+                                <span wicket:id="contractId"></span> charged at <span wicket:id="evseId"></span> with token <span wicket:id="instance"></span> (<span wicket:id="tokenType"></span>,<span wicket:id="tokenSubType"></span>)
+                            </div>
+                            <div class="list-text">
+                                Start: <span wicket:id="startDateTime"></span> - End: <span wicket:id="endDateTime"></span> (Charge Duration: <span wicket:id="duration"></span>)
+                                <br><span wicket:id="liveAuthId"></span>
+                            </div> 
+                            <!--
+                            <div class="list-controls" style="height: 72px; line-height: 62px;">
+                                <a href="#" class="widget-icon widget-icon-circle"><span class="icon-thumbs-up"></span></a>
+                                <a href="#" class="widget-icon widget-icon-circle"><span class="icon-thumbs-down"></span></a>
+                            </div>
+                            -->
+                        </div>
+                    </div>
+                    <div class="footer tac">
+                        <a href="#">Load more messages...</a>
+                    </div>
+                </div>
+        
+        <!-- 
+        <div wicket:id="ochConfirmCDRsTable">
+            <table cellpadding="0" cellspacing="0" width="100%" class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <td>Review</td>
+                        <td>EVSE ID</td>
+                        <td>Token <br> Token Type</td>
+                        <td>dfsfsdfs</td>
+                        <td>Token Sub Type</td>
+                        <td>Contract Id</td>
+                        <td>Live Auth.</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr wicket:id="listview">
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary">Accept</button>
+                                <button type="button" class="btn btn-primary">Reject</button>
+                            </div>
+                            <br>
+                            <label class="radio-inline"><input type="radio" name="optradio">Option 1</label>
+<label class="radio-inline"><input type="radio" name="optradio">Option 2</label>
+<label class="radio-inline"><input type="radio" name="optradio">Option 3</label>
+                        </td>
+                        <td><span wicket:id="evseId"></span></td>
+                        <td><span wicket:id="instance"></span><br>
+                            <span wicket:id="tokenType"></span></td>
+                        <td>sdfsdfsf</td>
+                        <td><span wicket:id="tokenSubType"></span></td>
+                        <td><span wicket:id="contractId"></span></td>    
+                        <td><span wicket:id="liveAuthId"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        -->
+<script type="text/javascript">
+/*<![CDATA[*/
+    
+        var totalNew = 2, totalAccepted = 0, totalRejected = 0;
+        
+        $('.btn').click(function() {
+
+        var inputs = $(this).find("input");
+        var inputVal = "";
+        for (var i = 0; i < inputs.length; i++) {
+            inputVal += inputs[i].value;
+        }
+
+        var tmpContainer = $(this).parent("div").children("input");
+        window.alert("clicked inputVal:" + inputVal + " previous value:" + tmpContainer[0].value);
+        
+        var ico = $(this).parent("div").parent("div");
+        
+        switch(inputVal){
+          case "new":
+            totalNew++;
+            if (tmpContainer[0].value == "accept"){
+                ico = ico.find(".icon-thumbs-up");
+                ico[0].removeClass("icon-thumbs-up");
+                ico[0].addClass("icon-random");
+                totalAccepted--;
+            }else if (tmpContainer[0].value == "rejected"){
+                ico = ico.find("span");
+                ico[0].removeClass("icon-thumbs-down");
+                ico[0].addClass("icon-random");                
+                totalRejected--;
+            }else{
+                /* same as before */
+                totalNew--;
+            }
+            break;
+          case "accept":
+            totalAccepted++;
+            if (tmpContainer[0].value == "new"){
+                ico = ico.find("span");
+                ico[0].removeClass("icon-random");
+                ico[0].addClass("icon-thumbs-up");
+                totalNew--;
+            }else if (tmpContainer[0].value == "reject"){
+                ico = ico.find("span");
+                ico[0].removeClass("icon-thumbs-down");
+                ico[0].addClass("icon-thumbs-up");                
+                totalRejected--;
+            }else{
+                totalAccepted--;
+            }
+            break;
+          case "reject":
+            totalRejected++;
+            if (tmpContainer[0].value == "new"){
+                ico = ico.find("span");
+                ico[0].removeClass("icon-random");
+                ico[0].addClass("icon-thumbs-up");
+                totalNew--;
+            }else if (tmpContainer[0].value == "accept"){
+                ico = ico.find("span");
+                ico[0].removeClass("icon-thumbs-up");
+                ico[0].addClass("icon-thumbs-down");                
+                totalAccepted--;
+            }else{
+                totalRejected--;
+            }
+            break;
+        }
+        
+        tmpContainer[0].value = inputVal;
+        
+        var span = document.getElementById("totalNew");
+            while( span.firstChild ) {
+                span.removeChild( span.firstChild );
+            }
+        span.appendChild( document.createTextNode("" + totalNew) );
+
+        var span = document.getElementById("totalAccepted");
+            while( span.firstChild ) {
+                span.removeChild( span.firstChild );
+            }
+        span.appendChild( document.createTextNode("" + totalAccepted) );
+
+        var span = document.getElementById("totalRejected");
+            while( span.firstChild ) {
+                span.removeChild( span.firstChild );
+            }
+        span.appendChild( document.createTextNode("" + totalRejected) );
+        
+        $(this).toggleClass("btn-info");
+    });        
+/*]]>*/    
+        </script>        
+    </wicket:extend>
+</body>
+</html>

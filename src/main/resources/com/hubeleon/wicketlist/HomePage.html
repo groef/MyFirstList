@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+<head>
+		<title>Maven GAE Plugin - Wicket Example Application</title>
+		
+		<link rel="stylesheet" href="css/bootstrap/3.3.6/bootstrap.min.css">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="css/bootstrap/3.3.6/bootstrap-theme.min.css">
+		 
+		<link href="css/stylesheets.css" rel="stylesheet" type="text/css" />
+		<link href="css/icons/font-awesome.min.css" rel="stylesheet" type="text/css" />  
+		<link href="css/hubeleon.css" rel="stylesheet" type="text/css" />
+		<link href="css/backgrounds.css" rel="stylesheet" type="text/css" />
+		<link href="css/themes.css" rel="stylesheet" type="text/css" />
+
+        <script type='text/javascript' src='js/plugins/jquery/jquery-2.2.3.min.js'></script> 
+		<script type="text/javascript" src="/js/plugins/toggleClasses/toggleClasses.js"></script>
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<wicket:fragment wicket:id="fragment1">panel 1</wicket:fragment>
+<wicket:fragment wicket:id="fragment2">panel 2</wicket:fragment>
+	
+	
+    <div class="block block-drop-shadow" wicket:id="ochConfirmCDRsTable">
+                    <div class="head bg-default bg-light-rtl">
+                        <h2>Clearing House Charge Records</h2>
+                        <div class="head-panel nm">
+                            <a href="#" class="hp-info pull-left">
+                                <div class="hp-icon">
+                                    <span class="icon-random"></span>
+                                </div>
+                                <span class="hp-main" id="totalNew">1</span>
+                                <span class="hp-sm">New</span>
+                            </a>
+                            <a href="#" class="hp-info pull-left">
+                                <div class="hp-icon">
+                                    <span class="icon-thumbs-up"></span>
+                                </div>                                
+                                <span class="hp-main" id="totalAccepted">0</span>
+                                <span class="hp-sm">Accepted</span>
+                            </a>                            
+                            <a href="#" class="hp-info pull-left">
+                                <div class="hp-icon">
+                                    <span class="icon-thumbs-down"></span>
+                                </div>                                
+                                <span class="hp-main" id="totalRejected">0</span>
+                                <span class="hp-sm">Rejected</span>
+                            </a>                            
+                        </div>
+                    </div>
+                    <div class="content list" wicket:id="listview">                        
+                        <div class="list-item">                                                    
+                            <div class="list-datetime">
+                                <div class="time">
+                                    <span wicket:id="cdr"></span>                                    
+                                    <span wicket:id="status"></span>
+                                </div>
+                            </div>
+                            <FORM wicket:id="myForm" method="post" action="?0-1.IFormSubmitListener-form">                            
+                            <div class="list-info">
+                            	<input type="hidden" value="New" wicket:id="currentState">
+                            	<input type="hidden" value="" wicket:id="cdrId">
+	                            <button class="btn btn-default btn-sm" wicket:id="stateAcceptButton">
+								    <span class="glyphicon icon-thumbs-up"></span> 
+								    Accept
+								</button>
+								<button class="btn btn-default btn-sm" wicket:id="stateRejectButton">
+								    <span class="glyphicon icon-thumbs-down"></span> 
+								    Reject
+								</button>							
+                            </div>
+                            </FORM>
+                            <div class="list-text">
+                                <span wicket:id="contractId"></span> charged at <span wicket:id="evseId"></span> with token <span wicket:id="instance"></span> (<span wicket:id="tokenType"></span>,<span wicket:id="tokenSubType"></span>)
+                            </div>
+                            <div class="list-text">
+                                Start: <span wicket:id="startDateTime"></span> - End: <span wicket:id="endDateTime"></span> (Charge Duration: <span wicket:id="duration"></span>)
+                                <br><span wicket:id="liveAuthId"></span>
+                            </div> 
+                            <!--
+                            <div class="list-controls" style="height: 72px; line-height: 62px;">
+                                <a href="#" class="widget-icon widget-icon-circle"><span class="icon-thumbs-up"></span></a>
+                                <a href="#" class="widget-icon widget-icon-circle"><span class="icon-thumbs-down"></span></a>
+                            </div>
+                            -->
+                            
+                        </div>
+                    </div>
+                    <div class="footer tac">
+                        <a href="#">Load more messages...</a>
+                    </div>
+                </div>
+                <SCRIPT type="text/javascript">
+                
+                var totalNew = 1, totalAccepted = 0, totalRejected = 0;
+                
+                jQuery(function ($) {
+
+                    $('#swapArchived').on('click', function () {
+                        window.alert("being clicked");
+                        var $el = $(this),
+                        textNode = this.lastChild;
+                        $el.find('span').toggleClasses(['icon-random','icon-thumbs-up','icon-thumbs-down'], false);
+                        $el.toggleClasses(['showNew','showAccepted','showRejected'], false);
+                        $el.toggleClasses(['btn-default','btn-primary','btn-warning'], false);
+                        inputs = $el.parent("div").find("input");
+                        
+                        if ($el.hasClass('showNew')){
+                        	totalNew++;totalRejected--;
+                        	textNode.nodeValue = 'New';
+                        	inputs[0].value = 'New';
+                        }else if ($el.hasClass('showAccepted')){
+                        	totalNew--;totalAccepted++;
+                        	textNode.nodeValue = 'Accepted';
+                        	inputs[0].value = 'Accepted';
+                        }else if ($el.hasClass('showRejected')){
+                        	totalAccepted--;totalRejected++;
+                        	textNode.nodeValue = 'Rejected';
+                        	inputs[0].value = 'Rejected';
+                        }                         
+
+                        var span = document.getElementById("totalNew");
+                        while( span.firstChild ) {
+                            span.removeChild( span.firstChild );
+                        }
+                    span.appendChild( document.createTextNode("" + totalNew) );
+
+                    var span = document.getElementById("totalAccepted");
+                        while( span.firstChild ) {
+                            span.removeChild( span.firstChild );
+                        }
+                    span.appendChild( document.createTextNode("" + totalAccepted) );
+
+                    var span = document.getElementById("totalRejected");
+                        while( span.firstChild ) {
+                            span.removeChild( span.firstChild );
+                        }
+                    span.appendChild( document.createTextNode("" + totalRejected) );
+                    });
+                });
+                </SCRIPT>
+</body>
+</html>
